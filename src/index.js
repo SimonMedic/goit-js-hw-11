@@ -1,11 +1,11 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
-import simpleLightbox from 'simplelightbox';
+import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const API_KEY = '42599645-d2386b536dbb9a668471d6710';
+const API_KEY = '42481427-12d08fa9cedf5ba58e5021062';
 const perPage = 40;
-const currentPage = 1;
+let currentPage = 1;
 
 const searchForm = document.getElementById('search-form');
 const searchInput = document.querySelector('[name="searchQuery"]');
@@ -18,7 +18,7 @@ loadMoreButton.addEventListener('click', handleLoadMore);
 
 async function searchImages(query, page = 1) {
   try {
-    const respons = await axios.get('https://pixabay.com/api/', {
+    const response = await axios.get('https://pixabay.com/api/', {
       params: {
         key: API_KEY,
         q: query,
@@ -29,7 +29,7 @@ async function searchImages(query, page = 1) {
         page: page,
       },
     });
-    return Response.data;
+    return response.data;
   } catch (error) {
     console.error('Error while fetching images:', error);
     throw error;
@@ -59,7 +59,7 @@ function handleSearchResults(data) {
     );
     return;
   }
-  Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.');
+  Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
   currentPage = 1;
   renderImages(data.hits);
   showLoadMoreButtonIfNeeded(data.totalHits);
@@ -91,18 +91,18 @@ function clearGallery() {
 
 function showLoadMoreButtonIfNeeded(totalHits) {
   if (totalHits > currentPage * perPage) {
-    showLoadMoreButtonIfNeeded();
+    showLoadMoreButton();
   } else {
     hideLoadMoreButton();
   }
 }
 
 function hideLoadMoreButton() {
-  loadMoreButton.computedStyleMap.display = 'none';
+  loadMoreButton.style.display = 'none';
 }
 
 function showLoadMoreButton() {
-  loadMoreButton.computedStyleMap.display = 'block';
+  loadMoreButton.style.display = 'block';
 }
 
 function renderImages(images) {
@@ -111,7 +111,7 @@ function renderImages(images) {
     imgContainer.classList.add('photo-card');
 
     const imgLink = document.createElement('a');
-    imgLink.href = image.largeImgURL;
+    imgLink.href = image.largeImageURL;
     imgLink.setAttribute('data-lightbox', 'gallery');
 
     const img = document.createElement('img');
@@ -136,14 +136,15 @@ function renderImages(images) {
     infoItems.forEach(item => {
       const infoItem = document.createElement('p');
       infoItem.classList.add('info-item');
-      infoItem.innerHTML = '<b>${item.label}:</b> ${item.value}';
+      infoItem.innerHTML = `<b>${item.label}:</b> ${item.value}`;
       infoContainer.appendChild(infoItem);
     });
 
     imgContainer.appendChild(infoContainer);
+
     gallery.appendChild(imgContainer);
   });
 
-  const lightbox = new simpleLightbox('.gallery a');
+  const lightbox = new SimpleLightbox('.gallery a');
   lightbox.refresh();
 }
