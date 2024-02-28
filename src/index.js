@@ -132,5 +132,18 @@ function renderImages(images) {
       { label: 'Comments', value: image.comments },
       { label: 'Downloads', value: image.downloads },
     ];
+
+    infoItems.forEach(item => {
+      const infoItem = document.createElement('p');
+      infoItem.classList.add('info-item');
+      infoItem.innerHTML = '<b>${item.label}:</b> ${item.value}';
+      infoContainer.appendChild(infoItem);
+    });
+
+    imgContainer.appendChild(infoContainer);
+    gallery.appendChild(imgContainer);
   });
+
+  const lightbox = new simpleLightbox('.gallery a');
+  lightbox.refresh();
 }
