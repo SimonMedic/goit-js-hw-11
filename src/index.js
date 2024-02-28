@@ -79,7 +79,6 @@ async function handleLoadMore() {
     const data = await searchImages(query, currentPage);
     renderImages(data.hits);
     showLoadMoreButtonIfNeeded(data.totalHits);
-    smoothScrollToGallery();
   } catch (error) {
     Notiflix.Notify.failure(
       'Error while loading more images. Please try again.'
