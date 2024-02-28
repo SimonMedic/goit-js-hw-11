@@ -11,3 +11,7 @@ const searchForm = document.getElementById('search-form');
 const searchInput = document.querySelector('[name="searchQuery"]');
 const loadMoreButton = document.querySelector('.load-more');
 const gallery = document.querySelector('.gallery');
+
+searchForm.addEventListener('submit', handleSearch);
+searchInput.addEventListener('input', handleInputChange);
+loadMoreButton.addEventListener('click', handleLoadMore);
