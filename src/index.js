@@ -104,3 +104,33 @@ function hideLoadMoreButton() {
 function showLoadMoreButton() {
   loadMoreButton.computedStyleMap.display = 'block';
 }
+
+function renderImages(images) {
+  images.forEach(image => {
+    const imgContainer = document.createElement('div');
+    imgContainer.classList.add('photo-card');
+
+    const imgLink = document.createElement('a');
+    imgLink.href = image.largeImgURL;
+    imgLink.setAttribute('data-lightbox', 'gallery');
+
+    const img = document.createElement('img');
+    img.src = image.webformatURL;
+    img.alt = image.tags;
+    img.loading = 'lazy';
+    img.style.maxWidth = '100%';
+
+    imgLink.appendChild(img);
+    imgContainer.appendChild(imgLink);
+
+    const infoContainer = document.createElement('div');
+    infoContainer.classList.add('info');
+
+    const infoItems = [
+      { label: 'Likes', value: image.likes },
+      { label: 'Views', value: image.views },
+      { label: 'Comments', value: image.comments },
+      { label: 'Downloads', value: image.downloads },
+    ];
+  });
+}
