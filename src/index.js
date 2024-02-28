@@ -70,3 +70,37 @@ function handleInputChange() {
   clearGallery();
   hideLoadMoreButton();
 }
+
+async function handleLoadMore() {
+  const query = searchInput.value.trim();
+  try {
+    currentPage++;
+    const data = await searchImages(query, currentPage);
+    renderImages(data.hits);
+    showLoadMoreButtonIfNeeded(data.totalHits);
+  } catch (error) {
+    Notiflix.Notify.failure(
+      'Error while loading more images. Please try again.'
+    );
+  }
+}
+
+function clearGallery() {
+  gallery.innerHTML = '';
+}
+
+function showLoadMoreButtonIfNeeded(totalHits) {
+  if (totalHits > currentPage * perPage) {
+    showLoadMoreButtonIfNeeded();
+  } else {
+    hideLoadMoreButton();
+  }
+}
+
+function hideLoadMoreButton() {
+  loadMoreButton.computedStyleMap.display = 'none';
+}
+
+function showLoadMoreButton() {
+  loadMoreButton.computedStyleMap.display = 'block';
+}
