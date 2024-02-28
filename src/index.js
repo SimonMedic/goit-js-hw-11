@@ -63,7 +63,6 @@ function handleSearchResults(data) {
   currentPage = 1;
   renderImages(data.hits);
   showLoadMoreButtonIfNeeded(data.totalHits);
-  smoothScrollToGallery();
 }
 
 function handleInputChange() {
@@ -84,14 +83,6 @@ async function handleLoadMore() {
       'Error while loading more images. Please try again.'
     );
   }
-}
-
-function smoothScrollToGallery() {
-  const galleryPosition = gallery.getBoundingClientRect().top + window.scrollY;
-  window.scroll({
-    top: galleryPosition,
-    behavior: 'smooth',
-  });
 }
 
 function clearGallery() {
