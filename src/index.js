@@ -35,3 +35,38 @@ async function searchImages(query, page = 1) {
     throw error;
   }
 }
+
+async function handleSearch(event) {
+  event.preventDefault();
+  const query = searchInput.value.trim();
+
+  if (query) {
+    try {
+      const data = await searchImages(query);
+      handleSearchResults(data);
+    } catch (error) {
+      Notiflix.Notify.failure(
+        'Error while searching for images. Please try again.'
+      );
+    }
+  }
+}
+
+function handleSearchResults(data) {
+  if (data.hits.length === 0) {
+    Notiflix.Notify.info(
+      'No images found. Please try a different search term.'
+    );
+    return;
+  }
+  Notiflix.Notify.success('Hooray! We found ${data.totalHits} images.');
+  currentPage = 1;
+  renderImages(data.hits);
+  showLoadMoreButtonIfNeeded(data.totalHits);
+}
+
+function handleInputChange() {
+  currentPage = 1;
+  clearGallery();
+  hideLoadMoreButton();
+}
